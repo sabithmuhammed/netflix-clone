@@ -1,42 +1,47 @@
-import React from 'react'
-import Navbar from '../Navbar/Navbar'
-import axios from 'axios';
-import './style.css'
+import React, { useEffect, useState } from "react";
+import axios from "../../axios";
+import { API_KEY, imageURL } from "../../constants/constants";
+import "./style.css";
 function Banner() {
-   
+  const [banner, setBanner] = useState(null);
+  useEffect(() => {
+    const getMovie = async () => {
+      try {
+        const { data } = await axios.get(
+          `/movie/top_rated?language=en-US&page=1&api_key=${API_KEY}`
+        );
+        const randomIndex = Math.floor(Math.random() * data.results.length);
+        setBanner(data.results[randomIndex]);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    getMovie();
+  }, []);
 
-const options = {
-  method: 'GET',
-  url: 'https://api.themoviedb.org/3/discover/movie',
-  params: {include_adult: 'false', language: 'en-US', page: '1',api_key:''},
-  headers: {
-    accept: 'application/json',
-    Authorization: 'Bearer '
-  }
-};
-
-axios
-  .request(options)
-  .then(function (response) {
-    console.log(response.data);
-  })
-  .catch(function (error) {
-    console.error(error);
-  });
   return (
-    <div className='banner-div'>
-        <Navbar></Navbar>
-        <div className="banner-text">
-            <h1>Watch Joker Now</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, facere. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae perferendis neque deleniti repellat, eligendi hic labore eveniet quisquam rerum illo.</p>
-            <div className="button-div">
-                <button><i className="fa-solid fa-play"></i>Play</button><button className='btn-more'><i class="fa-solid fa-circle-info"></i>More info</button>
-            </div>
+    banner &&
+    <div className="banner-div">
+      <div className="banner-text">
+        <h1>{banner.title}</h1>
+        <p>{banner.overview}</p>
+        <div className="button-div">
+          <button>
+            <i className="fa-solid fa-play"></i>Play
+          </button>
+          <button className="btn-more">
+            <i className="fa-solid fa-circle-info"></i>More info
+          </button>
         </div>
-        <img className='banner-img' src="https://image.tmdb.org/t/p/original/meyhnvssZOPPjud4F1CjOb4snET.jpg" alt=""/>
-        <div className="gradient"></div>
+      </div>
+      <img
+        className="banner-img"
+        src={`${imageURL}/original/${banner.backdrop_path}`}
+        alt=""
+      />
+      <div className="gradient"></div>
     </div>
-  )
+  );
 }
 
-export default Banner
+export default Banner;

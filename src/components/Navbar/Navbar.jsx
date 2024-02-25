@@ -17,7 +17,10 @@ function Navbar() {
       </div>
       <div className="nav-right">
         <div className="search">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Ic_search_white_48px.svg" alt="" />
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Ic_search_white_48px.svg"
+            alt=""
+          />
         </div>
         <div className="avatar">
           <img

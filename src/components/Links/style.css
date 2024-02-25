@@ -1,0 +1,10 @@
+.foot-links{
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    margin-bottom: 30px;
+}
+.foot-links >li{
+    align-self: flex-start;
+    margin: 10px 0;
+}
